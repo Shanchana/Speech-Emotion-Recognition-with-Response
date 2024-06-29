@@ -6,7 +6,7 @@ Assistant Using Speech Emotion Recognition
 
 #### Overview
 
-The Mental Health Assistant Using Speech Emotion Recognition is an innovative project designed to provide real-time emotional support by analyzing users' speech to detect their emotional state and generating empathetic audio responses. This assistant aims to offer accessible, continuous, and private mental health support, addressing the growing need for emotional well-being solutions in today's fast-paced world.
+Assistant Using Speech Emotion Recognition is an innovative project designed to provide real-time emotional support by analyzing users' speech to detect their emotional state and generating empathetic audio responses. This assistant aims to offer accessible, continuous, and addressing the growing need for emotional well-being solutions in today's fast-paced world.
 
 #### Key Features
 
@@ -30,7 +30,6 @@ The Mental Health Assistant Using Speech Emotion Recognition is an innovative pr
 - **Continuous Support**: The 24/7 availability ensures users have access to emotional support at any time, providing a reliable resource for managing mental health.
 - **Empathy and Understanding**: By generating empathetic responses, the assistant helps users feel heard and validated, which is crucial for emotional well-being.
 - **Convenience and Accessibility**: Users can interact with the assistant from the comfort of their own homes, reducing the barriers associated with traditional mental health services such as cost, availability, and stigma.
-- **Personalization**: Over time, the assistant can learn from interactions to provide increasingly personalized support, enhancing the user experience.
 
 #### Technical Implementation
 
