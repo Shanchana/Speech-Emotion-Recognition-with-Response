@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Emotion Recognition</title>
+    <style>
+        h1{
+            text-align: center;
+            color: white;
+        }
+        button{
+            height: 25px;
+            width: 140px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 800;
+            background-color: white;
+            color: navy;
+        }
+        body{
+            background: linear-gradient(to bottom, #11475b, #67c1d3);
+            height: 100vh;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #0b2d42;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            height: 50px;
+            width: 200px;
+        }
+        .details{
+            position: relative;
+            top: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 25px;
+            gap: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>Speech Emotion Recognition With Response</h1>
+    <form id="recordingForm">
+        <button id="startRecordingButton" type="button">Start Recording</button>
+    </form>
+    <div class="details">
+    <div id="recordingStatus"></div> <!-- Div to display recording status -->
+    <div id="emotionResult"></div> <!-- Div to display emotion result -->
+    <div id="transcriptionResult"></div> <!-- Div to display transcription result -->
+    <div id="responseResult"></div> <!-- Div to display response result -->
+</div>
+
+
+    <script>
+        document.getElementById('startRecordingButton').addEventListener('click', function() {
+            document.getElementById('startRecordingButton').disabled = true;
+
+            // Send AJAX request to start recording
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', "{% url 'start_recording' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('recordingStatus').innerText = "Preparing to record...";
+                    checkRecordingStatus(); // Start checking the recording status
+                }
+            };
+            xhr.send();
+        });
+
+        function checkRecordingStatus() {
+            var xhrStatus = new XMLHttpRequest();
+            xhrStatus.open('GET', "{% url 'check_status' %}", true);
+            xhrStatus.onreadystatechange = function() {
+                if (xhrStatus.readyState == 4 && xhrStatus.status == 200) {
+                    var response = JSON.parse(xhrStatus.responseText);
+                    document.getElementById('recordingStatus').innerText = response.status;
+                    if (response.status === "completed") {
+                        document.getElementById('emotionResult').innerText = "Predicted Emotion: " + response.emotion;
+                        document.getElementById('transcriptionResult').innerText = "Transcription: " + response.transcription;
+                        document.getElementById('responseResult').innerText = "Response: " + response.response;
+                        document.getElementById('startRecordingButton').disabled = false; // Re-enable the button
+                    } else {
+                        setTimeout(checkRecordingStatus, 1000); // Check status every second
+                    }
+                }
+            };
+            xhrStatus.send();
+        }
+    </script>
+</body>
+</html>
